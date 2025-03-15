@@ -6,7 +6,7 @@ FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 
 # Copy the JAR file into the container
-COPY target/*.jar app.jar
+COPY BackEnd/target/*.jar app.jar
 
 # Expose port (match your Spring Boot port, e.g., 10000 for Render)
 EXPOSE 10000
