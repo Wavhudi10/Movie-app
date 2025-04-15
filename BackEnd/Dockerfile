@@ -1,15 +1,13 @@
 
-# Use a Java base image
-FROM eclipse-temurin:17-jdk-jammy
-
-# Set working directory
+# Stage 1: Build the JAR
+FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package
 
-# Copy the JAR file into the container
-COPY BackEnd/target/*.jar app.jar
-
-# Expose port (match your Spring Boot port, e.g., 10000 for Render)
+# Stage 2: Run the JAR
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 10000
-
-# Run the JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
